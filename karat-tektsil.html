@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karat Tekstil | Premium Üretim</title>
+    <!-- Modern Fontlar -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Renk Paleti ve Değişkenler */
+        :root {
+            --primary: #00B8C4;
+            --primary-hover: #0098A3;
+            --secondary: #0F2D52;
+            --bg-light: #F8F9FA;
+            --white: #FFFFFF;
+            --text-dark: #333333;
+            --text-light: #777777;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(0, 184, 196, 0.2);
+            --shadow: 0 10px 30px rgba(15, 45, 82, 0.08);
+        }
+
+        /* Genel Ayarlar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header (Navbar) */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--secondary);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--secondary);
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(0, 184, 196, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(15, 45, 82, 0.2);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--white);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        /* Hero Bölümü */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 5%;
+            background: linear-gradient(rgba(15, 45, 82, 0.7), rgba(15, 45, 82, 0.7)), url('https://images.unsplash.com/photo-1558098329-a11cff621064?auto=format&fit=crop&q=80') center/cover;
+            color: var(--white);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 54px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px;
+            margin-bottom: 40px;
+            color: #E0E0E0;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Hakkımızda / İstatistikler */
+        .stats-section {
+            padding: 100px 5%;
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 36px;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            padding: 40px 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .stat-card h2 {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        /* Neden Biz */
+        .features-section {
+            padding: 100px 5%;
+            background-color: var(--secondary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .features-section .section-title {
+            color: var(--white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: inline-block;
+            background: rgba(0, 184, 196, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #B0BEC5;
+            font-size: 15px;
+        }
+
+        /* İletişim */
+        .contact-section {
+            padding: 100px 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 {
+            font-size: 28px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            background: var(--bg-light);
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+        }
+
+        textarea.form-control {
+            height: 150px;
+            resize: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0A1F38;
+            color: var(--white);
+            padding: 60px 5% 30px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .footer-logo span {
+            color: var(--primary);
+        }
+
+        .footer-text {
+            color: #7A8B9E;
+            font-size: 14px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+        }
+
+        /* Animasyonlar */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            .hero h1 { font-size: 36px; }
+            .contact-section { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Üst Menü -->
+    <header>
+        <div class="logo">Karat<span>Tekstil</span></div>
+        <nav>
+            <ul>
+                <li><a href="#hakkimizda">Hakkımızda</a></li>
+                <li><a href="#neden-biz">Neden Biz</a></li>
+                <li><a href="#referanslar">Referanslar</a></li>
+            </ul>
+        </nav>
+        <button class="btn btn-primary" onclick="document.getElementById('iletisim').scrollIntoView();">İletişime Geç</button>
+    </header>
+
+    <!-- Hero Bölümü -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Karat Tekstil ile Kaliteli Üretim ve Güvenilir İş Ortaklığı</h1>
+            <p>Yılların tecrübesiyle yüksek kalite standartlarında tekstil ve giyim üretimi gerçekleştiriyoruz.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-outline" onclick="document.getElementById('hakkimizda').scrollIntoView();">Hakkımızda</button>
+                <button class="btn btn-primary" onclick="document.getElementById('iletisim').scrollIntoView();">Projeye Başla</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- İstatistikler -->
+    <section id="hakkimizda" class="stats-section">
+        <h2 class="section-title">Hakkımızda & Gücümüz</h2>
+        <p class="section-subtitle">Modern üretim kapasitemiz ve uluslararası kalite standartlarımızla sektöre yön veriyoruz.</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h2>15+</h2>
+                <p>Yıl Sektörel Deneyim</p>
+            </div>
+            <div class="stat-card">
+                <h2>500+</h2>
+                <p>Tamamlanan Proje</p>
+            </div>
+            <div class="stat-card">
+                <h2>100+</h2>
+                <p>Kurumsal Müşteri</p>
+            </div>
+            <div class="stat-card">
+                <h2>50+</h2>
+                <p>Uzman Çalışan</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Neden Biz -->
+    <section id="neden-biz" class="features-section">
+        <h2 class="section-title">Neden Bizi Tercih Etmelisiniz?</h2>
+        <p class="section-subtitle" style="color: #A0B0C0;">Stripe ve Apple standartlarında premium üretim deneyimi sunuyoruz.</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">?</div>
+                <h3>Yüksek Kalite</h3>
+                <p>Uluslararası standartlarda, en ince detaya kadar test edilmiş kusursuz kumaş ve üretim kalitesi.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">??</div>
+                <h3>Modern Üretim</h3>
+                <p>Endüstri 4.0 standartlarında en son teknoloji makine parkuru ve inovatif üretim bantları.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">?</div>
+                <h3>Hızlı Teslimat</h3>
+                <p>Gelişmiş lojistik ağımız sayesinde projelerinizi tam zamanında ve eksiksiz teslim ediyoruz.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- İletişim Formu -->
+    <section id="iletisim" class="contact-section">
+        <div class="contact-info">
+            <h3>Bizimle İletişime Geçin</h3>
+            <p>Yeni üretim projeniz için hazır mısınız? Detayları görüşmek için formu doldurun, ekibimiz en kısa sürede size dönüş yapsın.</p>
+            <br>
+            <p><strong>?? Telefon:</strong> +90 5XX XXX XX XX</p>
+            <p><strong>?? E-posta:</strong> info@karattekstil.com</p>
+        </div>
+        
+        <form onsubmit="event.preventDefault(); alert('Mesajınız başarıyla gönderildi!');">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Adınız Soyadınız" required>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Firma Adı">
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="E-posta Adresiniz" required>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" placeholder="Projenizden veya mesajınızdan bahsedin..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Mesajı Gönder</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">Karat<span>Tekstil</span></div>
+        <p>Premium kurumsal tekstil markası estetiği.</p>
+        <p class="footer-text">© 2026 Karat Tekstil. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script>
+        // Scroll yapıldığında Navbar'a gölge ekleme
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
