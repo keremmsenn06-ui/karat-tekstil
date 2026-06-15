@@ -176,7 +176,7 @@
             align-items: center;
         }
 
-        /* Logo Alanı */
+        /* Entegre Edilen Son Logo Dinamik Stil Ayarları */
         .logo-container {
             display: flex;
             align-items: center;
@@ -188,22 +188,23 @@
             opacity: 0.85;
         }
 
-        .logo-fallback {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--white);
-            letter-spacing: -0.02em;
+        .logo-svg {
+            width: 170px;
+            height: auto;
         }
 
-        header.sticky .logo-fallback {
-            color: var(--secondary);
-        }
+        /* Sticky menü durumuna göre renk geçiş adaptasyonu */
+        .logo-d1 { fill: var(--white); transition: fill var(--duration) var(--easing); }
+        .logo-d2 { fill: var(--primary); }
+        .logo-d3 { fill: var(--gray-100); opacity: 0.85; transition: fill var(--duration) var(--easing); }
+        .logo-txt { fill: var(--white); transition: fill var(--duration) var(--easing); }
+        .logo-sub { fill: var(--primary); }
 
-        .logo-fallback span {
-            color: var(--primary);
-        }
+        header.sticky .logo-d1 { fill: var(--secondary); }
+        header.sticky .logo-d3 { fill: #0098A3; opacity: 0.8; }
+        header.sticky .logo-txt { fill: var(--secondary); }
 
-        /* Menü Sistemi */
+        /* Menü Linkleri */
         nav ul {
             display: flex;
             list-style: none;
@@ -246,7 +247,7 @@
             width: 100%;
         }
 
-        /* Dil Seçici (Dropdown) */
+        /* Çalışır Hale Getirilen Dil Seçici (Dropdown) */
         .lang-selector {
             position: relative;
             display: inline-block;
@@ -289,7 +290,8 @@
             z-index: 101;
         }
 
-        .lang-selector:hover .lang-dropdown {
+        /* JS ile kontrol edilecek aktif sınıfı */
+        .lang-dropdown.show {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
@@ -304,6 +306,7 @@
             text-decoration: none;
             font-size: 0.875rem;
             transition: background var(--duration) var(--easing);
+            cursor: pointer;
         }
 
         .lang-option:hover {
@@ -821,35 +824,44 @@
 </head>
 <body>
 
-    <!-- SABİT ÜST MENÜ VE DİL SEÇİMİ -->
+    <!-- SABİT ÜST MENÜ VE ÇALIŞAN DİL MOTORU -->
     <header id="main-header">
         <div class="container nav-container">
             <a href="#home" class="logo-container">
-                <div class="logo-fallback">Karat<span>Tekstil</span></div>
+                <!-- En Son Tasarlanan 3 Elmaslı K Logosu (SVG Vektörel) -->
+                <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 90">
+                  <g transform="translate(15, 5)">
+                    <path class="logo-d1" d="M 25 40 L 45 20 L 65 40 L 45 60 Z" />
+                    <path class="logo-d2" d="M 52 23 L 72 3 L 92 23 L 72 43 Z" opacity="0.95" />
+                    <path class="logo-d3" d="M 52 57 L 72 37 L 92 57 L 72 77 Z" />
+                  </g>
+                  <text class="logo-txt" x="130" y="46" font-family="'Inter', sans-serif" font-size="34" font-weight="800" letter-spacing="-0.02em">KARAT</text>
+                  <text class="logo-sub" x="130" y="68" font-family="'Inter', sans-serif" font-size="13" font-weight="600" letter-spacing="0.38em">TEKSTİL</text>
+                </svg>
             </a>
             
             <nav id="nav-menu">
                 <ul>
-                    <li><a href="#home" class="nav-link active">Anasayfa</a></li>
-                    <li><a href="#about" class="nav-link">Hakkımızda</a></li>
-                    <li><a href="#products" class="nav-link">Ürün Grupları</a></li>
-                    <li><a href="#process" class="nav-link">Üretim Süreci</a></li>
-                    <li><a href="#quality" class="nav-link">Kalite</a></li>
-                    <li><a href="#faq" class="nav-link">SSS</a></li>
-                    <li><a href="#contact" class="nav-link">İletişim</a></li>
+                    <li><a href="#home" class="nav-link active" data-i18n="nav_home">Anasayfa</a></li>
+                    <li><a href="#about" class="nav-link" data-i18n="nav_about">Hakkımızda</a></li>
+                    <li><a href="#products" class="nav-link" data-i18n="nav_products">Ürün Grupları</a></li>
+                    <li><a href="#process" class="nav-link" data-i18n="nav_process">Üretim Süreci</a></li>
+                    <li><a href="#quality" class="nav-link" data-i18n="nav_quality">Kalite</a></li>
+                    <li><a href="#faq" class="nav-link" data-i18n="nav_faq">SSS</a></li>
+                    <li><a href="#contact" class="nav-link" data-i18n="nav_contact">İletişim</a></li>
                 </ul>
             </nav>
 
             <div style="display: flex; align-items: center; gap: 20px;">
                 <div class="lang-selector">
                     <button class="lang-trigger" aria-haspopup="true">
-                        <i class="ph ph-globe"></i> <span>Türkçe</span> <i class="ph ph-caret-down"></i>
+                        <i class="ph ph-globe"></i> <span id="current-lang">Türkçe</span> <i class="ph ph-caret-down"></i>
                     </button>
-                    <div class="lang-dropdown">
-                        <a href="#" class="lang-option">Türkçe</a>
-                        <a href="#" class="lang-option">English</a>
-                        <a href="#" class="lang-option">Deutsch</a>
-                        <a href="#" class="lang-option">Italiano</a>
+                    <div class="lang-dropdown" id="lang-dropdown">
+                        <div class="lang-option" onclick="changeLanguage('tr', 'Türkçe')">Türkçe</div>
+                        <div class="lang-option" onclick="changeLanguage('en', 'English')">English</div>
+                        <div class="lang-option" onclick="changeLanguage('de', 'Deutsch')">Deutsch</div>
+                        <div class="lang-option" onclick="changeLanguage('it', 'Italiano')">Italiano</div>
                     </div>
                 </div>
                 <button class="menu-toggle" id="hamburger" aria-label="Menüyü Aç/Kapat">
@@ -863,11 +875,11 @@
     <section id="home" class="hero">
         <div class="container">
             <div class="reveal">
-                <h1>Küresel Markalar İçin<br>Endüstriyel Ölçekte Tekstil Üretimi</h1>
-                <p>Sürdürülebilir hammadde tedariğinden son teknoloji hazır giyim mühendisliğine kadar. Dünyanın önde gelen markaları için kusursuz ve güvenilir bir üretim performansı sunuyoruz.</p>
+                <h1 id="hero-title">Küresel Markalar İçin<br>Endüstriyel Ölçekte Tekstil Üretimi</h1>
+                <p id="hero-desc">Sürdürülebilir hammadde tedariğinden son teknoloji hazır giyim mühendisliğine kadar. Dünyanın önde gelen markaları için kusursuz ve güvenilir bir üretim performansı sunuyoruz.</p>
                 <div class="btn-group">
-                    <a href="#products" class="btn btn-primary">Ürün Gruplarını İncele <i class="ph ph-arrow-right"></i></a>
-                    <a href="#contact" class="btn btn-secondary">Ücretsiz Teklif Al</a>
+                    <a href="#products" class="btn btn-primary" id="hero-btn1">Ürün Gruplarını İncele <i class="ph ph-arrow-right"></i></a>
+                    <a href="#contact" class="btn btn-secondary" id="hero-btn2">Ücretsiz Teklif Al</a>
                 </div>
             </div>
         </div>
@@ -910,7 +922,6 @@
             </div>
             
             <div class="product-grid">
-                <!-- Kart 1 -->
                 <div class="product-card reveal">
                     <div class="product-img-wrapper">
                         <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80" alt="Premium Tişörtler">
@@ -920,7 +931,6 @@
                         <p>Sürdürülebilir organik pamuktan üretilen, yüksek yoğunluklu ve formunu koruyan tasarımlar.</p>
                     </div>
                 </div>
-                <!-- Kart 2 -->
                 <div class="product-card reveal">
                     <div class="product-img-wrapper">
                         <img src="https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=600&q=80" alt="Polo Yaka Tişörtler">
@@ -930,7 +940,6 @@
                         <p>Kurumsal giyim ve günlük moda için optimize edilmiş, özel örgü yapısına sahip tasarımlar.</p>
                     </div>
                 </div>
-                <!-- Kart 3 -->
                 <div class="product-card reveal">
                     <div class="product-img-wrapper">
                         <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80" alt="Sweatshirt ve Hoodieler">
@@ -940,7 +949,6 @@
                         <p>Yüksek gramajlı, içi şardonlu ve dayanıklı dikiş yapısıyla üretilen premium modeller.</p>
                     </div>
                 </div>
-                <!-- Kart 4 -->
                 <div class="product-card reveal">
                     <div class="product-img-wrapper">
                         <img src="https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=600&q=80" alt="Kurumsal İş Kıyafetleri">
@@ -1112,7 +1120,16 @@
     <footer>
         <div class="container footer-grid">
             <div class="footer-brand">
-                <h3>Karat<span>Tekstil</span></h3>
+                <!-- Footer Alanı Sabit Koyu Renkli Logo Entegrasyonu -->
+                <svg style="width:170px; height:auto; margin-bottom:16px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 90">
+                  <g transform="translate(15, 5)">
+                    <path d="M 25 40 L 45 20 L 65 40 L 45 60 Z" fill="#FFFFFF" />
+                    <path d="M 52 23 L 72 3 L 92 23 L 72 43 Z" fill="#00B8C4" opacity="0.95" />
+                    <path d="M 52 57 L 72 37 L 92 57 L 72 77 Z" fill="#E2E8F0" opacity="0.85" />
+                  </g>
+                  <text x="130" y="46" font-family="'Inter', sans-serif" font-size="34" font-weight="800" fill="#FFFFFF" letter-spacing="-0.02em">KARAT</text>
+                  <text x="130" y="68" font-family="'Inter', sans-serif" font-size="13" font-weight="600" fill="#00B8C4" letter-spacing="0.38em">TEKSTİL</text>
+                </svg>
                 <p>Küresel pazarlar için optimize edilmiş, yüksek standartlı kurumsal tekstil çözümleri.</p>
             </div>
             <div class="footer-col">
@@ -1140,13 +1157,85 @@
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2026 Karat Tekstil A.Ş. Tüm hakları saklıdır. Stratejik Üretim Mimarisi.
+            &copy; 2026 Karat Tekstil A.Ş. Tüm hakları sablıdır. Stratejik Üretim Mimarisi.
         </div>
     </footer>
 
-    <!-- ETKİLEŞİM VE ANİMASYON SCRIPT MOTORU -->
+    <!-- ETKİLEŞİM, ANİMASYON VE ÇALIŞAN DİL MOTORU SCRIPTİ -->
     <script>
-        // 1. Yapışkan (Sticky) Menü Kontrolü
+        // --- DİL SEÇENEKLERİ SÖZLÜĞÜ (DİNAMİK MOTOR) ---
+        const translations = {
+            tr: {
+                nav_home: "Anasayfa", nav_about: "Hakkımızda", nav_products: "Ürün Grupları",
+                nav_process: "Üretim Süreci", nav_quality: "Kalite", nav_faq: "SSS", nav_contact: "İletişim",
+                hero_title: "Küresel Markalar İçin<br>Endüstriyel Ölçekte Tekstil Üretimi",
+                hero_desc: "Sürdürülebilir hammadde tedariğinden son teknoloji hazır giyim mühendisliğine kadar. Dünyanın önde gelen markaları için kusursuz ve güvenilir bir üretim performansı sunuyoruz.",
+                hero_btn1: "Ürün Gruplarını İncele", hero_btn2: "Ücretsiz Teklif Al"
+            },
+            en: {
+                nav_home: "Home", nav_about: "About Us", nav_products: "Product Groups",
+                nav_process: "Process Flow", nav_quality: "Quality", nav_faq: "FAQ", nav_contact: "Contact",
+                hero_title: "High-Scale Textile Production<br>Engineered For Global Brands",
+                hero_desc: "From sustainable sourcing to state-of-the-art garment apparel engineering. We deliver world-class production performance with flawless reliability.",
+                hero_btn1: "View Product Groups", hero_btn2: "Get Free Estimate"
+            },
+            de: {
+                nav_home: "Startseite", nav_about: "Über Uns", nav_products: "Produktgruppen",
+                nav_process: "Ablauf", nav_quality: "Qualität", nav_faq: "FAQ", nav_contact: "Kontakt",
+                hero_title: "Textilproduktion im großen Stil<br>Für globale Marken entwickelt",
+                hero_desc: "Von der nachhaltigen Beschaffung bis zur modernsten Bekleidungstechnik. Wir bieten erstklassige Produktionsleistung mit absoluter Zuverlässigkeit.",
+                hero_btn1: "Produktgruppen anzeigen", hero_btn2: "Kostenlose Schätzung"
+            },
+            it: {
+                nav_home: "Home", nav_about: "Chi Siamo", nav_products: "Prodotti",
+                nav_process: "Processo", nav_quality: "Qualità", nav_faq: "FAQ", nav_contact: "Contatti",
+                hero_title: "Produzione Tessile su Grande Scala<br>Ingegnata per i Brand Globali",
+                hero_desc: "Dall'approvvigionamento sostenibile all'ingegneria dell'abbigliamento all'avanguardia. Offriamo prestazioni di produzione di livello mondiale con affidabilità impeccabile.",
+                hero_btn1: "Mostra Prodotti", hero_btn2: "Preventivo Gratuito"
+            }
+        };
+
+        // Dil Değiştirme Fonksiyonu
+        function changeLanguage(langKey, langName) {
+            // Aktif dil tetikleyicisinin yazısını güncelle
+            document.getElementById('current-lang').innerText = langName;
+            
+            // Sözlükteki karşılıkları DOM elementlerine enjekte et
+            document.getElementById('hero-title').innerHTML = translations[langKey].hero_title;
+            document.getElementById('hero-desc').innerText = translations[langKey].hero_desc;
+            document.getElementById('hero-btn1').innerHTML = translations[langKey].hero_btn1 + ' <i class="ph ph-arrow-right"></i>';
+            document.getElementById('hero-btn2').innerText = translations[langKey].hero_btn2;
+
+            // Navigasyon linklerini güncelle
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[langKey][key]) {
+                    element.innerText = translations[langKey][key];
+                }
+            });
+
+            // Dropdown menüsünü kapat
+            document.getElementById('lang-dropdown').classList.remove('show');
+        }
+
+        // Dil Menüsü Açma/Kapatma Tıklama Etkinliği
+        const langTrigger = document.querySelector('.lang-trigger');
+        const langDropdown = document.getElementById('lang-dropdown');
+        
+        langTrigger.addEventListener('click', (e) => {
+            e.stopPropagation(); // Tıklama olayının dışarı sızmasını engelle
+            langDropdown.classList.toggle('show');
+        });
+
+        // Sayfada başka bir yere tıklandığında dil menüsünü kapat
+        document.addEventListener('click', () => {
+            langDropdown.classList.remove('show');
+        });
+
+
+        // --- UI VE NAVİGASYON FONKSİYONLARI ---
+        
+        // Sticky Header Efekti
         const header = document.getElementById('main-header');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 60) {
@@ -1156,7 +1245,7 @@
             }
         });
 
-        // 2. Mobil Hamburger Menü Tetikleyicisi
+        // Mobil Hamburger Menü
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('nav-menu');
         hamburger.addEventListener('click', () => {
@@ -1166,7 +1255,6 @@
             icon.classList.toggle('ph-x');
         });
 
-        // Mobil menü açıkken linke tıklanırsa kapatma adımı
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('open');
@@ -1176,7 +1264,7 @@
             });
         });
 
-        // 3. Dinamik Aktif Sayfa Göstergesi (Scroll Tracker)
+        // Dinamik Aktif Sayfa Göstergesi (Scroll Tracker)
         const sections = document.querySelectorAll('section, header');
         const navLinks = document.querySelectorAll('.nav-link');
         
@@ -1197,7 +1285,7 @@
             });
         });
 
-        // 4. Akıcı Kaydırma Görünürlük Animasyonu (Intersection Observer)
+        // Kaydırma Animasyonu (Intersection Observer)
         const reveals = document.querySelectorAll('.reveal');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1209,7 +1297,7 @@
 
         reveals.forEach(target => revealObserver.observe(target));
 
-        // 5. Akordiyon SSS Çalışma Mantığı
+        // SSS Akordiyon Yapısı
         const faqItems = document.querySelectorAll('.faq-item');
         faqItems.forEach(item => {
             const trigger = item.querySelector('.faq-trigger');
